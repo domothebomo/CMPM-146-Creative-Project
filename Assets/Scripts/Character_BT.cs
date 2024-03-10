@@ -13,7 +13,7 @@ public class Character_BT : MonoBehaviour
 
         Character_Script = gameObject.GetComponent<Character>();
 
-        Character_Script.MoveToClicked();
+        //Character_Script.MoveToClicked();
     }
 
     // Update is called once per frame
