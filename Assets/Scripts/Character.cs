@@ -19,7 +19,7 @@ public class Character : MonoBehaviour
 
         // --- Test code - Set up an object in scene called Waypoint, and character will follow the x and z coords of that object
         //waypoint = GameObject.Find("Waypoint");
-        //SetMoveDestination(new Vector3(waypoint.transform.position.x, 1.0f, waypoint.transform.position.z));
+        //SetMoveDestination(new Vector3(waypoint.transform.position.x, 3.0f, waypoint.transform.position.z));
         //MoveToClicked();
         // ---
     }
