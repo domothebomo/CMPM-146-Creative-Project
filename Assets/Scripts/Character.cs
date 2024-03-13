@@ -11,26 +11,40 @@ public class Character : MonoBehaviour
     NavMeshAgent agent;
 
     GameObject waypoint;
+
+    bool move_requested = false;
     
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
 
-        // --- Test code - Set up an object in scene called Waypoint, and character will follow the x and z coords of that object
-        //waypoint = GameObject.Find("Waypoint");
-        //SetMoveDestination(new Vector3(waypoint.transform.position.x, 3.0f, waypoint.transform.position.z));
-        //MoveToClicked();
-        // ---
     }
 
     // Update is called once per frame
     void Update()
     {
-        // --- Test code
-        //SetMoveDestination(new Vector3(waypoint.transform.position.x, 1.0f, waypoint.transform.position.z));
-        //MoveToClicked();
-        // ---
+
+    }
+
+    public void RequestMove()
+    {
+        move_requested = true;
+    }
+
+    public bool IsMoveRequested()
+    {
+        if (move_requested)
+        {
+            move_requested = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void SetMoveRequest(bool request)
+    {
+        move_requested = request;
     }
 
     public void SetMoveDestination(Vector3 destination)
