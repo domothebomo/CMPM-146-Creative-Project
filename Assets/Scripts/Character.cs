@@ -42,19 +42,15 @@ public class Character : MonoBehaviour
         return false;
     }
 
-    public void SetMoveRequest(bool request)
-    {
-        move_requested = request;
-    }
-
     public void SetMoveDestination(Vector3 destination)
     {
         move_destination = destination;
     }
 
-    public void MoveToClicked()
+    public bool MoveToClicked()
     {
         Move(move_destination);
+        return true;
     }
 
     void Move(Vector3 position)
