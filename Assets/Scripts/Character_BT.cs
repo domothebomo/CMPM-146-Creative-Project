@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-// From https://stackoverflow.com/questions/273313/randomize-a-listt
-private static Random rng = new Random();  
-public static void Shuffle<T>(this IList<T> list)  
-{  
-    int n = list.Count;  
-    while (n > 1) {  
-        n--;  
-        int k = rng.Next(n + 1);  
-        T value = list[k];  
-        list[k] = list[n];  
-        list[n] = value;  
-    }  
+// From https://stackoverflow.com/questions/273313/randomize-a-listt 
+public static class ListExtensions
+{
+    private static System.Random rng = new System.Random();
+
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n); // Corrected range
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
 }
 
 public class Character_BT : MonoBehaviour
@@ -26,7 +31,7 @@ public class Character_BT : MonoBehaviour
     // ------Behavior Tree Definitions-------
 
     // Basic behavior tree node abstraction
-    private abstract class BT_Node {
+    protected abstract class BT_Node {
 
         public abstract bool run();
 
@@ -35,9 +40,9 @@ public class Character_BT : MonoBehaviour
     // -------------Composites---------------
 
     // Abstract composite node, has children and iterates through them in various ways.
-    private abstract class BT_Composite : BT_Node {
+    protected abstract class BT_Composite : BT_Node {
 
-        private List<BT_Node> children;
+        protected List<BT_Node> children = new List<BT_Node>();
 
         public void addChild(BT_Node n) {
             children.Add(n);
@@ -51,7 +56,7 @@ public class Character_BT : MonoBehaviour
     private class BT_Sequence : BT_Composite {
         public override bool run() {
             foreach (BT_Node child in children) {
-                if (not child.run()) {
+                if (!child.run()) {
                     return false;
                 }
             }
@@ -65,7 +70,7 @@ public class Character_BT : MonoBehaviour
     private class BT_Selector : BT_Composite {
         public override bool run() {
             foreach (BT_Node child in children) {
-                if (not child.run()) {
+                if (!child.run()) {
                     return false;
                 }
             }
@@ -98,16 +103,16 @@ public class Character_BT : MonoBehaviour
     // Abstract decorator node, has exactly one child and performs an operation on its output.
     // May also repeat the child node a certain number of times.
     private abstract class BT_Decorator : BT_Node {
-        BT_Node child;
+        protected BT_Node child;
         public void setChild(BT_Node n) {
-            child = n
+            child = n;
         }
     }
 
     // Inverter, returns the opposite of its child's result
     private class BT_Inverter : BT_Decorator {
         public override bool run() {
-            return not child.run();
+            return !child.run();
         }
     }
 
@@ -120,13 +125,13 @@ public class Character_BT : MonoBehaviour
     }
 
     // Repeater, infinitely calls its child
-    private class BT_Succeeder : BT_Decorator {
+    private class BT_Repeater : BT_Decorator {
         public override bool run() {
             while (true) {
                 child.run();
-                Thread.sleep(SLEEP_MS)
+                Thread.Sleep(SLEEP_MS);
             }
-            return false; //idk
+            //return false; //idk
         }
     }
 
@@ -134,7 +139,7 @@ public class Character_BT : MonoBehaviour
     private class BT_Until_Fail : BT_Decorator {
         public override bool run() {
             while (child.run()) {
-                Thread.sleep(SLEEP_MS)
+                Thread.Sleep(SLEEP_MS);
             }
             return true;
         }
@@ -145,9 +150,9 @@ public class Character_BT : MonoBehaviour
     // Behavior tree leaf node, calls a bool function when it is run
     private class BT_Leaf : BT_Node {
 
-        private Func<bool> action;
+        private System.Func<bool> action;
 
-        public BT_Leaf(Func<bool> f) {
+        public BT_Leaf(System.Func<bool> f) {
             action = f;
         }
 
@@ -169,7 +174,7 @@ public class Character_BT : MonoBehaviour
         // Create the behavior tree
 
         // Main sequence loop
-        BT_Root root = new BT_Repeater();
+        BT_Repeater root = new BT_Repeater();
         BT_Selector mainSelector = new BT_Rand_Selector();
         root.setChild(mainSelector);
 
