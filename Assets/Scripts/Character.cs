@@ -17,6 +17,9 @@ public class Character : MonoBehaviour
     GameObject waypoint;
 
     bool move_requested = false;
+
+    [SerializeField]
+    private int playerOpinion = 10; // default player opinion value
     
     // Start is called before the first frame update
     void Start()
@@ -90,5 +93,15 @@ public class Character : MonoBehaviour
         obj.transform.parent = null;
         obj.GetComponent<Rigidbody>().useGravity = true;
         heldObject = null;
+    }
+
+    public int GetPlayerOpinion()
+    {
+        return playerOpinion;
+    }
+
+    public void ChangePlayerOpinion(int opinionChange)
+    {
+        playerOpinion += opinionChange;
     }
 }

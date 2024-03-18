@@ -8,7 +8,8 @@ public class UtilityFramework : MonoBehaviour
 	Character Character_Script;
 
 	// Avoid objects on fire utility
-	public void AvoidObjectsOnFire(Character character) {
+	public void AvoidObjectsOnFire(Character character)
+	{
 		// Find all colliders within a 5-unit radius sphere
 		Collider[] hitColliders = Physics.OverlapSphere(character.transform.position, 5f);
 		foreach (var hitCollider in hitColliders) {
@@ -24,7 +25,12 @@ public class UtilityFramework : MonoBehaviour
 		}
 	}
 
-	// Ideas for Character ignoring orders from player when developed low opinion of player
-	// Implement a way to get the character's current opinion in Character.cs
-	// Set a threshold for when an order should be ignored based on the numerical value of character opinion
+	// Determine if Character should Ignore Order or not
+	public bool ShouldIgnoreOrder(Character character, int playerOpinionThreshold)
+	{
+		// Retrieves character's current opinion
+		int currentOpinion = character.GetPlayerOpinion();
+		// Logic to determine whether or not to ignore order based on threshold
+		return currentOpinion < playerOpinionThreshold;
+	}
 }
