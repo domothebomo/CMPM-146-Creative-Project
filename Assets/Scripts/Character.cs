@@ -61,7 +61,7 @@ public class Character : MonoBehaviour
         return heldObject;
     }
 
-    #region Moving
+    #region Move
     public void RequestMove()
     {
         moveRequested = true;
@@ -140,12 +140,46 @@ public class Character : MonoBehaviour
     }
     #endregion
 
-    public void Drop(GameObject obj)
+    #region Drop
+    public void RequestDrop()
+    {
+        dropRequested = true;
+    }
+
+    public bool IsDropRequested()
+    {
+        if (dropRequested)
+        {
+            dropRequested = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void SetObjectToDrop(GameObject obj)
+    {
+        objectToDrop = obj;
+    }
+
+    public bool DropObject()
+    {
+        Drop(objectToDrop);
+        return true;
+    }
+
+    public bool MoveToObjectToDrop()
+    {
+        Move(objectToDrop.transform.position);
+        return true;
+    }
+
+    private void Drop(GameObject obj)
     {
         obj.transform.parent = null;
         obj.GetComponent<Rigidbody>().useGravity = true;
         heldObject = null;
     }
+    #endregion
 
     public int GetPlayerOpinion()
     {
