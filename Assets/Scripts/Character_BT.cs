@@ -191,6 +191,24 @@ public class Character_BT : MonoBehaviour
         BT_Selector mainSelector = new BT_Selector();
         root.setChild(mainSelector);
 
+        // Self-preservation sequence
+        BT_Sequence fireSequence = new BT_Sequence();
+        mainSelector.addChild(fireSequence);
+
+        BT_Leaf fireCheck = new BT_Leaf(Character_Script.CharacterOnFire);
+        BT_Sequence putSelfOutSequence = new BT_Sequence();
+
+        BT_Leaf findBucket = new BT_Leaf(FindWaterBucket);
+
+        putSelfOutSequence.addChild(findBucket);
+        putSelfOutSequence.addChild(executePickup);
+
+        fireSequence.addChild(fireCheck);
+        fireSequence.addChild(putSelfOutSequence);
+
+        // Being on fire nullifies any other behavior
+        mainSelector.addChild(fireCheck);
+
         // Move sequence
         BT_Sequence playerClickSeq = new BT_Sequence();
         mainSelector.addChild(playerClickSeq);
@@ -217,7 +235,7 @@ public class Character_BT : MonoBehaviour
 
         BT_Leaf plrPickupCheck = new BT_Leaf(Character_Script.IsPickUpRequested);
 
-        BT_Selector itemRangeCheck = new BT_Selector();
+        BT_Selector executePickup = new BT_Selector();
         
         BT_Sequence alreadyNearItem = new BT_Sequence();
         BT_Leaf objectAlreadyInRange = new BT_Leaf(Character_Script.ObjectInPickUpRange);
@@ -229,21 +247,24 @@ public class Character_BT : MonoBehaviour
         BT_Leaf moveToPickup = new BT_Leaf(Character_Script.MoveToObjectToPickUp);
         moveAndPickup.setChild(moveToPickup);
         
-        itemRangeCheck.addChild(alreadyNearItem);
-        itemRangeCheck.addChild(moveAndPickup);
+        executePickup.addChild(alreadyNearItem);
+        executePickup.addChild(moveAndPickup);
         
         playerPickupSeq.addChild(plrPickupCheck);
-        playerPickupSeq.addChild(itemRangeCheck);
+        playerPickupSeq.addChild(executePickup);
 
         // Default action (when all others fail)
         BT_Sequence defaultSequence = new BT_Sequence();
+        mainSelector.addChild(defaultSequence);
+        
         BT_Inverter invertBucket = new BT_Inverter();
         BT_Leaf bucketCheck = new BT_Leaf(Character_Script.IsHoldingBucket);
         invertBucket.setChild(bucketCheck);
+        
         BT_Leaf avoidFire = new BT_Leaf(Utility_Script.AvoidObjectsOnFire);
+        
         defaultSequence.addChild(invertBucket);
         defaultSequence.addChild(avoidFire);
-        mainSelector.addChild(defaultSequence);
 
     }
 
