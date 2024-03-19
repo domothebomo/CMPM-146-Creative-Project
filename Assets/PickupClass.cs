@@ -22,14 +22,20 @@ public class PickupClass : MonoBehaviour
             if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo)){
                 if(hitInfo.transform.gameObject.tag == "Object"){
                     if(!Character_Script.IsHoldingObject()){
-                        Character_Script.PickUp(hitInfo.transform.gameObject);
+                        Character_Script.SetObjectToPickUp(hitInfo.transform.gameObject);
+                        Character_Script.RequestPickUp();
                     }
-                    else if(Character_Script.IsHoldingObject() &&  hitInfo.transform.gameObject == Character_Script.GetHeldObject()){
+                    else if(Character_Script.IsHoldingObject() && hitInfo.transform.gameObject == Character_Script.GetHeldObject()){
                         item = Character_Script.GetHeldObject();
-                        Character_Script.Drop(item);
+                        Character_Script.SetObjectToDrop(item);
+                        Character_Script.RequestDrop();
                     }
                 }
             }
+        }
+        if(Input.GetMouseButtonDown(1) && Character_Script.IsHoldingObject()){
+            // set fire
+            //Character_Script
         }
     }
 
