@@ -201,7 +201,7 @@ public class Character_BT : MonoBehaviour
 
         // Pickup sequence
         BT_Sequence playerPickupSeq = new BT_Sequence();
-        mainSelector.addChild(playerClickSeq);
+        mainSelector.addChild(playerPickupSeq);
 
         BT_Leaf plrPickupCheck = new BT_Leaf(Character_Script.IsPickUpRequested);
         BT_Leaf moveToPickup = new BT_Leaf(Character_Script.MoveToObjectToPickUp);
