@@ -36,6 +36,20 @@ public class PlayerController : MonoBehaviour
         AssignInputs();
     }
 
+    void Update(){
+        if(Input.GetMouseButtonDown(1) && Character_Script.IsHoldingObject()){
+            if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo)){
+                GameObject item = hitInfo.transform.gameObject;
+                if(item.tag == "Object"){
+                    item.GetComponent<Flammable>().SetOnFire();
+                }
+                else if(item.tag == "Character"){
+                    item.GetComponent<Flammable>().SetOnFire();
+                }
+            }
+        }
+    }
+
     void AssignInputs(){
         input.Main.Move.performed += ctx => ClickToMove();
     }
@@ -50,8 +64,7 @@ public class PlayerController : MonoBehaviour
         //     }
         // }
         if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo)){
-            if(hitInfo.transform.gameObject.tag == "Object" || hitInfo.transform.gameObject.tag == "Bucket")
-            {
+            if(hitInfo.transform.gameObject.tag == "Object"){
                     if(!Character_Script.IsHoldingObject()){
                         Debug.Log("pick up!");
                         Character_Script.SetObjectToPickUp(hitInfo.transform.gameObject);
