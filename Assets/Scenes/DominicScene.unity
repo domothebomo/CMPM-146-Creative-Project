@@ -236,6 +236,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2741710450983180948, guid: 1f4a1f8a434b78043a3c9ef0fc053833, type: 3}
+      propertyPath: clickEffect
+      value: 
+      objectReference: {fileID: 3070690663528420189, guid: 614575268ad126741a4025c6cb36b04d, type: 3}
     - target: {fileID: 3421748035667890766, guid: 1f4a1f8a434b78043a3c9ef0fc053833, type: 3}
       propertyPath: m_Name
       value: Character
@@ -886,6 +890,14 @@ PrefabInstance:
     - target: {fileID: 7112222838704047548, guid: 600ccce5a0d534f4180f2d0e2ab0979f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482323446071884232, guid: 600ccce5a0d534f4180f2d0e2ab0979f, type: 3}
+      propertyPath: fireEffect
+      value: 
+      objectReference: {fileID: 3507087199311794263, guid: d7a0220214b4d1b47affa6b5176604bb, type: 3}
+    - target: {fileID: 7482323446071884232, guid: 600ccce5a0d534f4180f2d0e2ab0979f, type: 3}
+      propertyPath: startOnFire
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7999259954879784117, guid: 600ccce5a0d534f4180f2d0e2ab0979f, type: 3}
       propertyPath: m_Name

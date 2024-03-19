@@ -7,23 +7,29 @@ public class UtilityFramework : MonoBehaviour
 	// Import scripts
 	Character Character_Script;
 
-	// Avoid objects on fire utility
-	public void AvoidObjectsOnFire(Character character)
+    private void Start()
+    {
+        Character_Script = GetComponent<Character>();
+    }
+
+    // Avoid objects on fire utility
+    public bool AvoidObjectsOnFire()
 	{
 		// Find all colliders within a 5-unit radius sphere
-		Collider[] hitColliders = Physics.OverlapSphere(character.transform.position, 5f);
+		Collider[] hitColliders = Physics.OverlapSphere(Character_Script.transform.position, 5f);
 		foreach (var hitCollider in hitColliders) {
 			// Check OnFire tag built-in UnityEngine
-			if(hitCollider.CompareTag("OnFire")) {
+			if(hitCollider.CompareTag("Object") && hitCollider.gameObject.GetComponent<Flammable>().IsOnFire()) {
 				// Calculate the direction vector from fire object to character
-				Vector3 directionToAvoid = character.transform.position - hitCollider.transform.position;
+				Vector3 directionToAvoid = Character_Script.transform.position - hitCollider.transform.position;
 				// Calculate a safe distance for character to move away from fire object
-				Vector3 newDestination = character.transform.position + directionToAvoid.normalized * 5f;
-				character.SetMoveDestination(newDestination);
-				character.MoveToClicked();
+				Vector3 newDestination = Character_Script.transform.position + directionToAvoid.normalized * 5f;
+				Character_Script.SetMoveDestination(newDestination);
+				Character_Script.MoveToClicked();
 				break;
 			}
 		}
+		return true;
 	}
 
 	// Determine if Character should Ignore Order or not

@@ -124,6 +124,11 @@ public class Character : MonoBehaviour
         return true;
     }
 
+    public bool ObjectInPickUpRange()
+    {
+        return Vector3.Distance(transform.position, objectToPickUp.transform.position) < 3.0;
+    }
+
     public bool MoveToObjectToPickUp()
     {
         Move(objectToPickUp.transform.position);
@@ -164,12 +169,6 @@ public class Character : MonoBehaviour
     public bool DropObject()
     {
         Drop(objectToDrop);
-        return true;
-    }
-
-    public bool MoveToObjectToDrop()
-    {
-        Move(objectToDrop.transform.position);
         return true;
     }
 

@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c37eec8c83ed145bcdf80603e86d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOpinion: 10
 --- !u!114 &2741710450983180948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +220,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad150d13180b7a419c891fb5566b3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PickupLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  PlayerCamera: {fileID: 0}
+  PickupRange: 3
+  clickEffect: {fileID: 3070690663528420189, guid: 614575268ad126741a4025c6cb36b04d, type: 3}
+  clickableLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &-3993755200808480085
 MonoBehaviour:
   m_ObjectHideFlags: 0

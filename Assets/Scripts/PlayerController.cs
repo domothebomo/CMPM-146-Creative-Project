@@ -52,10 +52,12 @@ public class PlayerController : MonoBehaviour
         if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo)){
             if(hitInfo.transform.gameObject.tag == "Object"){
                     if(!Character_Script.IsHoldingObject()){
+                        Debug.Log("pick up!");
                         Character_Script.SetObjectToPickUp(hitInfo.transform.gameObject);
                         Character_Script.RequestPickUp();
                     }
                     else if(Character_Script.IsHoldingObject() && hitInfo.transform.gameObject == Character_Script.GetHeldObject()){
+                        Debug.Log("drop!");
                         GameObject item = Character_Script.GetHeldObject();
                         Character_Script.SetObjectToDrop(item);
                         Character_Script.RequestDrop();
