@@ -188,6 +188,17 @@ public class Character_BT : MonoBehaviour
         playerClickSeq.addChild(plrMoveRequestCheck);
         playerClickSeq.addChild(moveToClick);
 
+        // Drop sequence
+        BT_Sequence playerDropSeq = new BT_Sequence();
+        mainSelector.addChild(playerDropSeq);
+
+        BT_Leaf plrDropCheck = new BT_Leaf(Character_Script.IsDropRequested);
+        BT_Leaf isHoldingObj = new BT_Leaf(Character_Script.IsHoldingObject);
+        BT_Leaf dropObj = new BT_Leaf(Character_Script.DropObject);
+        playerClickSeq.addChild(plrDropCheck);
+        playerClickSeq.addChild(isHoldingObj);
+        playerClickSeq.addChild(dropObj);
+
         // Pickup sequence
         BT_Sequence playerPickupSeq = new BT_Sequence();
         mainSelector.addChild(playerClickSeq);
