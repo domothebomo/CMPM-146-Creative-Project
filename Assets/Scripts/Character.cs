@@ -77,6 +77,7 @@ public class Character : MonoBehaviour
     {
         if (GetComponent<Flammable>().IsOnFire())
         {
+            //Debug.Log("we on fire");
             return true;
         }
         return false;
@@ -124,6 +125,7 @@ public class Character : MonoBehaviour
         GameObject bucket = GameObject.FindWithTag("Bucket");
         if (bucket != null)
         {
+            //Debug.Log("bucket found");
             SetObjectToPickUp(bucket);
             return true;
         }
@@ -181,6 +183,7 @@ public class Character : MonoBehaviour
 
     public void SetObjectToPickUp(GameObject obj)
     {
+        //Debug.Log("setting obj");
         objectToPickUp = obj;
     }
 
@@ -192,18 +195,21 @@ public class Character : MonoBehaviour
 
     public bool ObjectInPickUpRange()
     {
+        //Debug.Log("in range?");
         return Vector3.Distance(transform.position, objectToPickUp.transform.position) < 3.0;
     }
 
     public bool MoveToObjectToPickUp()
     {
+        //Debug.Log("moving to " + objectToPickUp.name);
         SetMoveDestination(objectToPickUp.transform.position);
-        RequestMove();
+        MoveToClicked();
         return true;
     }
 
     private void PickUp(GameObject obj)
     {
+        //Debug.Log("picking up");
         FacePos(obj.transform.position);
         obj.GetComponent<Rigidbody>().useGravity = false;
         obj.transform.position = holdPos.position;
@@ -251,6 +257,7 @@ public class Character : MonoBehaviour
 
     public void ClearRequests()
     {
+        //Debug.Log("clearing");
         pickUpRequested = false;
         dropRequested = false;
         moveRequested = false;

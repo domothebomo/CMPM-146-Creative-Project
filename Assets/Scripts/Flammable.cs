@@ -34,11 +34,17 @@ public class Flammable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        fireTick += Time.deltaTime;
-        if (IsOnFire() && fireTick >= 5.0f)
+        if (IsOnFire())
         {
-            SpreadFire();
-            fireTick = 0.0f;
+            if (fireTick >= 5.0f)
+            {
+                SpreadFire();
+                fireTick = 0.0f;
+            }
+            else
+            {
+                fireTick += Time.deltaTime;
+            }
         }
     }
 

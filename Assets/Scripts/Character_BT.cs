@@ -198,10 +198,10 @@ public class Character_BT : MonoBehaviour
         BT_Leaf fireCheck = new BT_Leaf(Character_Script.CharacterOnFire);
         BT_Sequence putSelfOutSequence = new BT_Sequence();
 
-        BT_Leaf findBucket = new BT_Leaf(FindWaterBucket);
+        BT_Leaf findBucket = new BT_Leaf(Character_Script.FindWaterBucket);
 
         putSelfOutSequence.addChild(findBucket);
-        putSelfOutSequence.addChild(executePickup);
+        //putSelfOutSequence.addChild(executePickup); moved to after definition
 
         fireSequence.addChild(fireCheck);
         fireSequence.addChild(putSelfOutSequence);
@@ -236,7 +236,8 @@ public class Character_BT : MonoBehaviour
         BT_Leaf plrPickupCheck = new BT_Leaf(Character_Script.IsPickUpRequested);
 
         BT_Selector executePickup = new BT_Selector();
-        
+        putSelfOutSequence.addChild(executePickup);
+
         BT_Sequence alreadyNearItem = new BT_Sequence();
         BT_Leaf objectAlreadyInRange = new BT_Leaf(Character_Script.ObjectInPickUpRange);
         BT_Leaf pickupCloseObj = new BT_Leaf(Character_Script.PickUpObject);

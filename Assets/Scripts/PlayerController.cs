@@ -37,14 +37,14 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
-        if(Input.GetMouseButtonDown(1) && Character_Script.IsHoldingObject()){
+        if(Input.GetMouseButtonDown(1)){
             if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo)){
                 GameObject item = hitInfo.transform.gameObject;
-                if(item.tag == "Object"){
-                    item.GetComponent<Flammable>().SetOnFire();
-                }
-                else if(item.tag == "Character"){
-                    item.GetComponent<Flammable>().SetOnFire();
+                if(item.tag == "Object" || item.tag == "Character"){
+                    if (!item.GetComponent<Flammable>().IsOnFire())
+                    {
+                        item.GetComponent<Flammable>().SetOnFire();
+                    }
                 }
             }
         }
@@ -64,14 +64,15 @@ public class PlayerController : MonoBehaviour
         //     }
         // }
         if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo)){
-            if(hitInfo.transform.gameObject.tag == "Object"){
+            if(hitInfo.transform.gameObject.tag == "Object" || hitInfo.transform.gameObject.tag == "Bucket")
+            {
                     if(!Character_Script.IsHoldingObject()){
-                        Debug.Log("pick up!");
+                        //Debug.Log("pick up!");
                         Character_Script.SetObjectToPickUp(hitInfo.transform.gameObject);
                         Character_Script.RequestPickUp();
                     }
                     else if(Character_Script.IsHoldingObject() && hitInfo.transform.gameObject == Character_Script.GetHeldObject()){
-                        Debug.Log("drop!");
+                        //Debug.Log("drop!");
                         GameObject item = Character_Script.GetHeldObject();
                         Character_Script.SetObjectToDrop(item);
                         Character_Script.RequestDrop();
