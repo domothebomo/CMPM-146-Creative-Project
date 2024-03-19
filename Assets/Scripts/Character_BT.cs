@@ -176,9 +176,10 @@ public class Character_BT : MonoBehaviour
 
         // Main sequence loop
         root = new BT_Root();
-        BT_Selector mainSelector = new BT_Rand_Selector();
+        BT_Selector mainSelector = new BT_Selector();
         root.setChild(mainSelector);
 
+        // Move sequence
         BT_Sequence playerClickSeq = new BT_Sequence();
         mainSelector.addChild(playerClickSeq);
 
@@ -186,6 +187,17 @@ public class Character_BT : MonoBehaviour
         BT_Leaf moveToClick = new BT_Leaf(Character_Script.MoveToClicked);
         playerClickSeq.addChild(plrMoveRequestCheck);
         playerClickSeq.addChild(moveToClick);
+
+        // Pickup sequence
+        BT_Sequence playerPickupSeq = new BT_Sequence();
+        mainSelector.addChild(playerClickSeq);
+
+        BT_Leaf plrPickupCheck = new BT_Leaf(Character_Script.IsPickUpRequested);
+        BT_Leaf moveToPickup = new BT_Leaf(Character_Script.MoveToObjectToPickUp);
+        BT_Leaf pickupObj = new BT_Leaf(Character_Script.PickUpObject);
+        playerClickSeq.addChild(plrPickupCheck);
+        playerClickSeq.addChild(moveToPickup);
+        playerClickSeq.addChild(pickupObj);
 
     }
 
