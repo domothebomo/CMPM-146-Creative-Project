@@ -7,6 +7,8 @@ public class UtilityFramework : MonoBehaviour
 	// Import scripts
 	Character Character_Script;
 
+
+
     private void Start()
     {
         Character_Script = GetComponent<Character>();

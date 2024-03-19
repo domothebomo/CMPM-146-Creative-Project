@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class Character : MonoBehaviour
 { 
@@ -48,7 +49,15 @@ public class Character : MonoBehaviour
         if (heldObject != null)
         {
             heldObject.transform.position = holdPos.position;
+            heldObject.transform.rotation = holdPos.rotation;
         }
+    }
+
+    private void FacePos(Vector3 position)
+    {
+        Vector3 lookPos = position - transform.position;
+        lookPos.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookPos);
     }
 
     public bool IsHoldingObject()
@@ -90,9 +99,7 @@ public class Character : MonoBehaviour
 
     void Move(Vector3 position)
     {
-        Vector3 lookPos = position - transform.position;
-        lookPos.y = 0;
-        transform.rotation = Quaternion.LookRotation(lookPos);
+        FacePos(position);
         agent.destination = position;
     }
     #endregion
@@ -132,11 +139,19 @@ public class Character : MonoBehaviour
     public bool MoveToObjectToPickUp()
     {
         Move(objectToPickUp.transform.position);
+        while (true)
+        {
+            if (ObjectInPickUpRange())
+            {
+                break;
+            }
+        }
         return true;
     }
 
     private void PickUp(GameObject obj)
     {
+        FacePos(obj.transform.position);
         obj.GetComponent<Rigidbody>().useGravity = false;
         obj.transform.position = holdPos.position;
         obj.transform.parent = transform;

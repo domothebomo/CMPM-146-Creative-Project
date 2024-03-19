@@ -34,6 +34,7 @@ public class Flammable : MonoBehaviour
         if (fireEffect != null)
         {
             fireInstance = Instantiate(fireEffect, transform.position += new Vector3(0, 0.1f, 0), fireEffect.transform.rotation);
+            fireInstance.transform.parent = transform;
         }
     }
     public void PutOutFire() 
