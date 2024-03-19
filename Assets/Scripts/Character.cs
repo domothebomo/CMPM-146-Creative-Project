@@ -73,9 +73,18 @@ public class Character : MonoBehaviour
         return heldObject;
     }
 
-    private bool IsFireNearby()
+    public bool CharacterOnFire()
     {
         if (GetComponent<Flammable>().IsOnFire())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool IsFireNearby()
+    {
+        if (CharacterOnFire())
         {
             return true;
         } 
@@ -94,7 +103,7 @@ public class Character : MonoBehaviour
 
     private void DouseFires()
     {
-        if (GetComponent<Flammable>().IsOnFire())
+        if (CharacterOnFire())
         {
             GetComponent<Flammable>().PutOutFire();
         }

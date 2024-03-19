@@ -239,10 +239,10 @@ public class Character_BT : MonoBehaviour
         BT_Sequence defaultSequence = new BT_Sequence();
         BT_Inverter invertBucket = new BT_Inverter();
         BT_Leaf bucketCheck = new BT_Leaf(Character_Script.IsHoldingBucket);
-        invertBucket.addChild(bucketCheck);
+        invertBucket.setChild(bucketCheck);
         BT_Leaf avoidFire = new BT_Leaf(Utility_Script.AvoidObjectsOnFire);
         defaultSequence.addChild(invertBucket);
-        defaultSequence.adddChild(avoidFire);
+        defaultSequence.addChild(avoidFire);
         mainSelector.addChild(defaultSequence);
 
     }

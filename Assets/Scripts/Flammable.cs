@@ -38,6 +38,7 @@ public class Flammable : MonoBehaviour
         if (IsOnFire() && fireTick >= 5.0f)
         {
             SpreadFire();
+            fireTick = 0.0f;
         }
     }
 
@@ -46,9 +47,9 @@ public class Flammable : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2.5f);
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Object") && hitCollider.gameObject.GetComponent<Flammable>().IsOnFire())
+            if ((hitCollider.CompareTag("Object") || hitCollider.CompareTag("Character")) && !hitCollider.gameObject.GetComponent<Flammable>().IsOnFire())
             {
-                //return 
+                hitCollider.gameObject.GetComponent<Flammable>().SetOnFire();
             }
         }
     }
@@ -74,7 +75,6 @@ public class Flammable : MonoBehaviour
 
     public bool IsOnFire() 
     {
-        Debug.Log(onFire);
         return onFire; 
     }
 }
