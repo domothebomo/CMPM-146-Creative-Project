@@ -195,9 +195,9 @@ public class Character_BT : MonoBehaviour
         BT_Leaf plrDropCheck = new BT_Leaf(Character_Script.IsDropRequested);
         BT_Leaf isHoldingObj = new BT_Leaf(Character_Script.IsHoldingObject);
         BT_Leaf dropObj = new BT_Leaf(Character_Script.DropObject);
-        playerClickSeq.addChild(plrDropCheck);
-        playerClickSeq.addChild(isHoldingObj);
-        playerClickSeq.addChild(dropObj);
+        playerDropSeq.addChild(plrDropCheck);
+        playerDropSeq.addChild(isHoldingObj);
+        playerDropSeq.addChild(dropObj);
 
         // Pickup sequence
         BT_Sequence playerPickupSeq = new BT_Sequence();
@@ -206,9 +206,9 @@ public class Character_BT : MonoBehaviour
         BT_Leaf plrPickupCheck = new BT_Leaf(Character_Script.IsPickUpRequested);
         BT_Leaf moveToPickup = new BT_Leaf(Character_Script.MoveToObjectToPickUp);
         BT_Leaf pickupObj = new BT_Leaf(Character_Script.PickUpObject);
-        playerClickSeq.addChild(plrPickupCheck);
-        playerClickSeq.addChild(moveToPickup);
-        playerClickSeq.addChild(pickupObj);
+        playerPickupSeq.addChild(plrPickupCheck);
+        playerPickupSeq.addChild(moveToPickup);
+        playerPickupSeq.addChild(pickupObj);
 
     }
 
