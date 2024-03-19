@@ -124,6 +124,7 @@ public class Character : MonoBehaviour
         GameObject bucket = GameObject.FindWithTag("Bucket");
         if (bucket != null)
         {
+            SetObjectToPickUp(bucket);
             return true;
         }
         return false;
