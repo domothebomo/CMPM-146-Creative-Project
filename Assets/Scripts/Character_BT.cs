@@ -236,13 +236,14 @@ public class Character_BT : MonoBehaviour
         playerPickupSeq.addChild(itemRangeCheck);
 
         // Default action (when all others fail)
-        BT_Sequence defaultAction = new BT_Sequence();
+        BT_Sequence defaultSequence = new BT_Sequence();
         BT_Inverter invertBucket = new BT_Inverter();
         BT_Leaf bucketCheck = new BT_Leaf(Character_Script.IsHoldingBucket);
         invertBucket.addChild(bucketCheck);
         BT_Leaf avoidFire = new BT_Leaf(Utility_Script.AvoidObjectsOnFire);
-        defaultAction.addChild(invertBucket);
-        mainSelector.addChild(defaultAction);
+        defaultSequence.addChild(invertBucket);
+        defaultSequence.adddChild(avoidFire);
+        mainSelector.addChild(defaultSequence);
 
     }
 
