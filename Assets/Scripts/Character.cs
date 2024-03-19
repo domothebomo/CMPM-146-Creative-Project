@@ -27,17 +27,17 @@ public class Character : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         holdPos = transform.GetChild(0);
 
-        /*waypoint = GameObject.Find("BasicObject");
-        Move(waypoint.transform.position);*/
+        waypoint = GameObject.Find("BasicObject");
+        Move(waypoint.transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (Vector3.Distance(waypoint.transform.position, transform.position) <= 2 && heldObject == null)
+        if (Vector3.Distance(waypoint.transform.position, transform.position) <= 2 && heldObject == null)
         {
             PickUp(waypoint);
-        }*/
+        }
 
         if (heldObject != null)
         {
@@ -77,6 +77,16 @@ public class Character : MonoBehaviour
         lookPos.y = 0;
         transform.rotation = Quaternion.LookRotation(lookPos);
         agent.destination = position;
+    }
+
+    public bool IsHoldingObject()
+    {
+        return (heldObject != null);
+    }
+
+    public GameObject GetHeldObject()
+    {
+        return heldObject;
     }
 
     public void PickUp(GameObject obj)
