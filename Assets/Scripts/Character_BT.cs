@@ -204,11 +204,30 @@ public class Character_BT : MonoBehaviour
         mainSelector.addChild(playerPickupSeq);
 
         BT_Leaf plrPickupCheck = new BT_Leaf(Character_Script.IsPickUpRequested);
+
+        BT_Selector itemRangeCheck = new BT_Selector();
+        
+        BT_Sequence alreadyNearItem = new BT_Sequence();
+        BT_Leaf objectAlreadyInRange = new BT_Leaf(Character_Script.ObjectInPickUpRange);
+        BT_Leaf pickupCloseObj = new BT_Leaf(Character_Script.PickUpObject);
+        alreadyNearItem.addChild(objectAlreadyInRange);
+        alreadyNearItem.addChild(pickupCloseObj);
+
+        BT_Sequence moveAndPickup = new BT_Sequence();
         BT_Leaf moveToPickup = new BT_Leaf(Character_Script.MoveToObjectToPickUp);
         BT_Leaf pickupObj = new BT_Leaf(Character_Script.PickUpObject);
+        moveAndPickup.addChild(moveToPickup);
+        moveAndPickup.addChild(pickupObj);
+        
+        itemRangeCheck.addChild(alreadyNearItem);
+        itemRangeCheck.addChild(moveAndPickup);
+        
         playerPickupSeq.addChild(plrPickupCheck);
         playerPickupSeq.addChild(moveToPickup);
         playerPickupSeq.addChild(pickupObj);
+
+        // Default action (when all others fail)
+        BT_Sequence defaultAction = new BT_Leaf(Utility_Script.AvoidObjectsOnFire);
 
     }
 
