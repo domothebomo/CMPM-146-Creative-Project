@@ -71,11 +71,11 @@ public class Character_BT : MonoBehaviour
     private class BT_Selector : BT_Composite {
         public override bool run() {
             foreach (BT_Node child in children) {
-                if (!child.run()) {
-                    return false;
+                if (child.run()) {
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
     }
 
