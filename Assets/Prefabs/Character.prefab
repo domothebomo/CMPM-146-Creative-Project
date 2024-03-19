@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 2741710450983180948}
   - component: {fileID: -3993755200808480085}
   - component: {fileID: -909334819426165045}
+  - component: {fileID: 6984239538127293880}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -303,7 +304,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1.5
-  m_BaseOffset: 0.85
+  m_BaseOffset: 0.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &2444036981724418904
@@ -364,6 +365,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc85c7c8fcff9be4db0d426b20ffc3d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6984239538127293880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3421748035667890766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b8e9e00375b2a4eb26cf4bc26bf33a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireEffect: {fileID: 3507087199311794263, guid: d7a0220214b4d1b47affa6b5176604bb, type: 3}
+  startOnFire: 0
 --- !u!1 &4839457172163267469
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,7 +50,8 @@ public class PlayerController : MonoBehaviour
         //     }
         // }
         if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo)){
-            if(hitInfo.transform.gameObject.tag == "Object"){
+            if(hitInfo.transform.gameObject.tag == "Object" || hitInfo.transform.gameObject.tag == "Bucket")
+            {
                     if(!Character_Script.IsHoldingObject()){
                         Debug.Log("pick up!");
                         Character_Script.SetObjectToPickUp(hitInfo.transform.gameObject);

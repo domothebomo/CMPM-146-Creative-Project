@@ -34,22 +34,20 @@ public class Character : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         holdPos = transform.GetChild(0);
 
-        /*waypoint = GameObject.Find("BasicObject");
-        Move(waypoint.transform.position);*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (Vector3.Distance(waypoint.transform.position, transform.position) <= 2 && heldObject == null)
-        {
-            PickUp(waypoint);
-        }*/
-
         if (heldObject != null)
         {
             heldObject.transform.position = holdPos.position;
             heldObject.transform.rotation = holdPos.rotation;
+
+            if (heldObject.CompareTag("Bucket") && IsFireNearby())
+            {
+                DouseFires();
+            }
         }
     }
 
@@ -65,9 +63,61 @@ public class Character : MonoBehaviour
         return (heldObject != null);
     }
 
+    public bool IsHoldingBucket()
+    {
+        return (heldObject != null && heldObject.CompareTag("Bucket"));
+    }
+
     public GameObject GetHeldObject()
     {
         return heldObject;
+    }
+
+    private bool IsFireNearby()
+    {
+        if (GetComponent<Flammable>().IsOnFire())
+        {
+            return true;
+        } 
+        
+        // Find all colliders within a 5-unit radius sphere
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Object") && hitCollider.gameObject.GetComponent<Flammable>().IsOnFire())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void DouseFires()
+    {
+        if (GetComponent<Flammable>().IsOnFire())
+        {
+            GetComponent<Flammable>().PutOutFire();
+        }
+
+        // Find all colliders within a 5-unit radius sphere
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Object") && hitCollider.gameObject.GetComponent<Flammable>().IsOnFire())
+            {
+                hitCollider.gameObject.GetComponent<Flammable>().PutOutFire();
+            }
+        }
+    }
+
+    public bool FindWaterBucket()
+    {
+        GameObject bucket = GameObject.FindWithTag("Bucket");
+        if (bucket != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     #region Move
@@ -114,8 +164,6 @@ public class Character : MonoBehaviour
     {
         if (pickUpRequested)
         {
-            //pickUpRequested = false;
-            //Debug.Log("pick up is requested");
             return true;
         }
         return false;
@@ -134,23 +182,13 @@ public class Character : MonoBehaviour
 
     public bool ObjectInPickUpRange()
     {
-        //Debug.Log("in range?");
         return Vector3.Distance(transform.position, objectToPickUp.transform.position) < 3.0;
     }
 
     public bool MoveToObjectToPickUp()
     {
-        //Debug.Log("moving to pickup");
-        //Move(objectToPickUp.transform.position);
         SetMoveDestination(objectToPickUp.transform.position);
         RequestMove();
-        /*while (true)
-        {
-            if (ObjectInPickUpRange())
-            {
-                break;
-            }
-        }*/
         return true;
     }
 
@@ -203,7 +241,6 @@ public class Character : MonoBehaviour
 
     public void ClearRequests()
     {
-        //Debug.Log("clearing");
         pickUpRequested = false;
         dropRequested = false;
         moveRequested = false;

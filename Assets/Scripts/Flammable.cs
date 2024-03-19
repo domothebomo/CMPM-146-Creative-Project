@@ -11,10 +11,20 @@ public class Flammable : MonoBehaviour
 
     [SerializeField] bool startOnFire = false;
     bool onFire = false;
+
+    float fireTick = 0.0f;
     
     // Start is called before the first frame update
     void Start()
     {
+        if (fireEffect != null)
+        {
+            fireInstance = Instantiate(fireEffect, transform.position += new Vector3(0, 0.1f, 0), fireEffect.transform.rotation);
+            fireInstance.transform.parent = transform;
+            fireInstance.Stop(true);
+        }
+        
+
         if (startOnFire)
         {
             SetOnFire();
@@ -24,7 +34,23 @@ public class Flammable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        fireTick += Time.deltaTime;
+        if (IsOnFire() && fireTick >= 5.0f)
+        {
+            SpreadFire();
+        }
+    }
 
+    private void SpreadFire()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2.5f);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Object") && hitCollider.gameObject.GetComponent<Flammable>().IsOnFire())
+            {
+                //return 
+            }
+        }
     }
 
     public void SetOnFire() 
@@ -33,19 +59,22 @@ public class Flammable : MonoBehaviour
 
         if (fireEffect != null)
         {
-            fireInstance = Instantiate(fireEffect, transform.position += new Vector3(0, 0.1f, 0), fireEffect.transform.rotation);
-            fireInstance.transform.parent = transform;
+            fireInstance.Play();
         }
     }
     public void PutOutFire() 
-    { 
+    {
         onFire = false;
 
         if (fireEffect != null)
         {
-            Destroy(fireInstance);
+            fireInstance.Stop(true);
         }
     }
 
-    public bool IsOnFire() { return onFire; }
+    public bool IsOnFire() 
+    {
+        Debug.Log(onFire);
+        return onFire; 
+    }
 }
