@@ -114,7 +114,8 @@ public class Character : MonoBehaviour
     {
         if (pickUpRequested)
         {
-            pickUpRequested = false;
+            //pickUpRequested = false;
+            //Debug.Log("pick up is requested");
             return true;
         }
         return false;
@@ -133,19 +134,23 @@ public class Character : MonoBehaviour
 
     public bool ObjectInPickUpRange()
     {
+        //Debug.Log("in range?");
         return Vector3.Distance(transform.position, objectToPickUp.transform.position) < 3.0;
     }
 
     public bool MoveToObjectToPickUp()
     {
-        Move(objectToPickUp.transform.position);
-        while (true)
+        //Debug.Log("moving to pickup");
+        //Move(objectToPickUp.transform.position);
+        SetMoveDestination(objectToPickUp.transform.position);
+        RequestMove();
+        /*while (true)
         {
             if (ObjectInPickUpRange())
             {
                 break;
             }
-        }
+        }*/
         return true;
     }
 
@@ -157,6 +162,7 @@ public class Character : MonoBehaviour
         obj.transform.parent = transform;
         obj.transform.rotation = transform.rotation;
         heldObject = obj;
+        pickUpRequested = false;
     }
     #endregion
 
@@ -194,6 +200,14 @@ public class Character : MonoBehaviour
         heldObject = null;
     }
     #endregion
+
+    public void ClearRequests()
+    {
+        //Debug.Log("clearing");
+        pickUpRequested = false;
+        dropRequested = false;
+        moveRequested = false;
+    }
 
     public int GetPlayerOpinion()
     {

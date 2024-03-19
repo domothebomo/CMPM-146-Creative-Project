@@ -28,6 +28,7 @@ public class Character_BT : MonoBehaviour
     private const int SLEEP_MS = 100;
 
     private Character Character_Script;
+    private UtilityFramework Utility_Script;
 
     // ------Behavior Tree Definitions-------
 
@@ -125,6 +126,16 @@ public class Character_BT : MonoBehaviour
         }
     }
 
+    // Failer, always returns false after running its child
+    private class BT_Failer : BT_Decorator
+    {
+        public override bool run()
+        {
+            child.run();
+            return false;
+        }
+    }
+
     // Root, calls its child
     private class BT_Root : BT_Decorator {
         public override bool run() {
@@ -171,6 +182,7 @@ public class Character_BT : MonoBehaviour
     {
 
         Character_Script = gameObject.GetComponent<Character>();
+        Utility_Script = gameObject.GetComponent<UtilityFramework>();
 
         // Create the behavior tree
 
@@ -213,21 +225,19 @@ public class Character_BT : MonoBehaviour
         alreadyNearItem.addChild(objectAlreadyInRange);
         alreadyNearItem.addChild(pickupCloseObj);
 
-        BT_Sequence moveAndPickup = new BT_Sequence();
+        BT_Failer moveAndPickup = new BT_Failer();
         BT_Leaf moveToPickup = new BT_Leaf(Character_Script.MoveToObjectToPickUp);
-        BT_Leaf pickupObj = new BT_Leaf(Character_Script.PickUpObject);
-        moveAndPickup.addChild(moveToPickup);
-        moveAndPickup.addChild(pickupObj);
+        moveAndPickup.setChild(moveToPickup);
         
         itemRangeCheck.addChild(alreadyNearItem);
         itemRangeCheck.addChild(moveAndPickup);
         
         playerPickupSeq.addChild(plrPickupCheck);
-        playerPickupSeq.addChild(moveToPickup);
-        playerPickupSeq.addChild(pickupObj);
+        playerPickupSeq.addChild(itemRangeCheck);
 
         // Default action (when all others fail)
-        BT_Sequence defaultAction = new BT_Leaf(Utility_Script.AvoidObjectsOnFire);
+        BT_Leaf defaultAction = new BT_Leaf(Utility_Script.AvoidObjectsOnFire);
+        mainSelector.addChild(defaultAction);
 
     }
 

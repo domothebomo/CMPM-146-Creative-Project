@@ -26,6 +26,7 @@ public class UtilityFramework : MonoBehaviour
 				Vector3 directionToAvoid = Character_Script.transform.position - hitCollider.transform.position;
 				// Calculate a safe distance for character to move away from fire object
 				Vector3 newDestination = Character_Script.transform.position + directionToAvoid.normalized * 5f;
+				Character_Script.ClearRequests();
 				Character_Script.SetMoveDestination(newDestination);
 				Character_Script.MoveToClicked();
 				break;
