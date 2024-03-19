@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Threading;
 using UnityEngine;
 
@@ -124,14 +125,11 @@ public class Character_BT : MonoBehaviour
         }
     }
 
-    // Repeater, infinitely calls its child
-    private class BT_Repeater : BT_Decorator {
+    // Root, calls its child
+    private class BT_Root : BT_Decorator {
         public override bool run() {
-            while (true) {
-                child.run();
-                Thread.Sleep(SLEEP_MS);
-            }
-            //return false; //idk
+            child.run();
+            return true;
         }
     }
 
@@ -165,6 +163,9 @@ public class Character_BT : MonoBehaviour
 
     // --------------Main Execution-----------------
 
+    BT_Root root;
+    float timer = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -174,7 +175,7 @@ public class Character_BT : MonoBehaviour
         // Create the behavior tree
 
         // Main sequence loop
-        BT_Repeater root = new BT_Repeater();
+        root = new BT_Root();
         BT_Selector mainSelector = new BT_Rand_Selector();
         root.setChild(mainSelector);
 
@@ -186,12 +187,19 @@ public class Character_BT : MonoBehaviour
         playerClickSeq.addChild(plrMoveRequestCheck);
         playerClickSeq.addChild(moveToClick);
 
-        root.run();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (timer >= 0.1f)
+        {
+            root.run();
+            timer = 0.0f;
+        }
+        else
+        {
+            timer += Time.deltaTime;
+        }
     }
 }

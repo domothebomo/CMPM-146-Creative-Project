@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit)){    // if the click is detected
             Character_Script.SetMoveDestination(hit.point);                                 // set the destination to the spot we clicked 
-            Character_Script.MoveToClicked();                                                 // request the bot to move
-            if(clickEffect != null){
+            Character_Script.RequestMove(); // request the bot to move
+            if (clickEffect != null){
                 Instantiate(clickEffect, hit.point += new Vector3(0, 0.1f, 0), clickEffect.transform.rotation);
             }
         }
