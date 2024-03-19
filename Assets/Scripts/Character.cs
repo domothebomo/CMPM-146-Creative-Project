@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,7 +9,6 @@ public class Character : MonoBehaviour
 { 
     Character_BT Behavior_Tree;
 
-    Vector3 move_destination = new Vector3(0.0f, 1.0f, 0.0f);
     NavMeshAgent agent;
 
     Transform holdPos;
@@ -16,7 +16,13 @@ public class Character : MonoBehaviour
 
     GameObject waypoint;
 
-    bool move_requested = false;
+    Vector3 moveDestination = new Vector3(0.0f, 1.0f, 0.0f);
+    GameObject objectToPickUp = null;
+    GameObject objectToDrop = null;
+
+    bool moveRequested = false;
+    bool pickUpRequested = false;
+    bool dropRequested = false;
 
     [SerializeField]
     private int playerOpinion = 10; // default player opinion value
@@ -45,40 +51,6 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void RequestMove()
-    {
-        move_requested = true;
-    }
-
-    public bool IsMoveRequested()
-    {
-        if (move_requested)
-        {
-            move_requested = false;
-            return true;
-        }
-        return false;
-    }
-
-    public void SetMoveDestination(Vector3 destination)
-    {
-        move_destination = destination;
-    }
-
-    public bool MoveToClicked()
-    {
-        Move(move_destination);
-        return true;
-    }
-
-    void Move(Vector3 position)
-    {
-        Vector3 lookPos = position - transform.position;
-        lookPos.y = 0;
-        transform.rotation = Quaternion.LookRotation(lookPos);
-        agent.destination = position;
-    }
-
     public bool IsHoldingObject()
     {
         return (heldObject != null);
@@ -89,7 +61,76 @@ public class Character : MonoBehaviour
         return heldObject;
     }
 
-    public void PickUp(GameObject obj)
+    #region Moving
+    public void RequestMove()
+    {
+        moveRequested = true;
+    }
+
+    public bool IsMoveRequested()
+    {
+        if (moveRequested)
+        {
+            moveRequested = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void SetMoveDestination(Vector3 destination)
+    {
+        moveDestination = destination;
+    }
+
+    public bool MoveToClicked()
+    {
+        Move(moveDestination);
+        return true;
+    }
+
+    void Move(Vector3 position)
+    {
+        Vector3 lookPos = position - transform.position;
+        lookPos.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookPos);
+        agent.destination = position;
+    }
+    #endregion
+
+    #region Pick Up
+    public void RequestPickUp()
+    {
+        pickUpRequested = true;
+    }
+
+    public bool IsPickUpRequested()
+    {
+        if (pickUpRequested)
+        {
+            pickUpRequested = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void SetObjectToPickUp(GameObject obj)
+    {
+        objectToPickUp = obj;
+    }
+
+    public bool PickUpObject()
+    {
+        PickUp(objectToPickUp);
+        return true;
+    }
+
+    public bool MoveToObjectToPickUp()
+    {
+        Move(objectToPickUp.transform.position);
+        return true;
+    }
+
+    private void PickUp(GameObject obj)
     {
         obj.GetComponent<Rigidbody>().useGravity = false;
         obj.transform.position = holdPos.position;
@@ -97,6 +138,7 @@ public class Character : MonoBehaviour
         obj.transform.rotation = transform.rotation;
         heldObject = obj;
     }
+    #endregion
 
     public void Drop(GameObject obj)
     {
